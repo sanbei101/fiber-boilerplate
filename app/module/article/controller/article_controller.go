@@ -35,7 +35,10 @@ func NewArticleController(articleService *service.ArticleService) *ArticleContro
 func (con *ArticleController) Index(c *fiber.Ctx) error {
 	articles, err := con.articleService.GetArticles()
 	if err != nil {
-		return err
+		return response.NewError(
+			fiber.StatusInternalServerError,
+			"Failed to retrieve articles",
+		)
 	}
 
 	return response.Resp(c, response.Response{
@@ -47,12 +50,18 @@ func (con *ArticleController) Index(c *fiber.Ctx) error {
 func (con *ArticleController) Show(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
-		return err
+		return response.NewError(
+			fiber.StatusBadRequest,
+			"Invalid article ID",
+		)
 	}
 
 	article, err := con.articleService.GetArticleByID(uint(id))
 	if err != nil {
-		return err
+		return response.NewError(
+			fiber.StatusNotFound,
+			"Article not found",
+		)
 	}
 
 	return response.Resp(c, response.Response{
@@ -64,12 +73,18 @@ func (con *ArticleController) Show(c *fiber.Ctx) error {
 func (con *ArticleController) Store(c *fiber.Ctx) error {
 	req := new(ArticleRequest)
 	if err := response.ParseAndValidate(c, req); err != nil {
-		return err
+		return response.NewError(
+			fiber.StatusBadRequest,
+			"Invalid input data",
+		)
 	}
 
 	article, err := con.articleService.CreateArticle(req.Title, req.Content)
 	if err != nil {
-		return err
+		return response.NewError(
+			fiber.StatusInternalServerError,
+			"Failed to create article",
+		)
 	}
 
 	return response.Resp(c, response.Response{
@@ -81,17 +96,26 @@ func (con *ArticleController) Store(c *fiber.Ctx) error {
 func (con *ArticleController) Update(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
-		return err
+		return response.NewError(
+			fiber.StatusBadRequest,
+			"Invalid article ID",
+		)
 	}
 
 	req := new(ArticleRequest)
 	if err := response.ParseAndValidate(c, req); err != nil {
-		return err
+		return response.NewError(
+			fiber.StatusBadRequest,
+			"Invalid input data",
+		)
 	}
 
 	article, err := con.articleService.UpdateArticle(uint(id), req.Title, req.Content)
 	if err != nil {
-		return err
+		return response.NewError(
+			fiber.StatusInternalServerError,
+			"Failed to update article",
+		)
 	}
 
 	return response.Resp(c, response.Response{
@@ -103,11 +127,17 @@ func (con *ArticleController) Update(c *fiber.Ctx) error {
 func (con *ArticleController) Destroy(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
-		return err
+		return response.NewError(
+			fiber.StatusBadRequest,
+			"Invalid article ID",
+		)
 	}
 
 	if err = con.articleService.DeleteArticle(uint(id)); err != nil {
-		return err
+		return response.NewError(
+			fiber.StatusInternalServerError,
+			"Failed to delete article",
+		)
 	}
 
 	return response.Resp(c, response.Response{
