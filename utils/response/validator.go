@@ -46,12 +46,14 @@ func ParseAndValidate(c *fiber.Ctx, body any) error {
 
 	switch v.Kind() {
 	case reflect.Ptr:
-		ParseBody(c, body)
-
+		if err := ParseBody(c, body); err != nil {
+			return err
+		}
 		return ValidateStruct(v.Elem().Interface())
 	case reflect.Struct:
-		ParseBody(c, &body)
-
+		if err := ParseBody(c, &body); err != nil {
+			return err
+		}
 		return ValidateStruct(v)
 	default:
 		return nil
