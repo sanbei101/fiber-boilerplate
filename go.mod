@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/efectn/fx-zerolog v1.0.1
-	github.com/go-playground/locales v0.14.0
+	github.com/go-playground/locales v0.14.1
 	github.com/go-playground/universal-translator v0.18.0
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/gofiber/fiber/v2 v2.52.5
