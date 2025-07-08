@@ -32,7 +32,7 @@ func (m *Middleware) Register() {
 	m.App.Use(limiter.New(limiter.Config{
 		Next:       utils.IsEnabled(m.Cfg.Middleware.Limiter.Enable),
 		Max:        m.Cfg.Middleware.Limiter.Max,
-		Expiration: m.Cfg.Middleware.Limiter.ExpSecs * time.Second,
+		Expiration: m.Cfg.Middleware.Limiter.Expiration * time.Second,
 	}))
 
 	m.App.Use(compress.New(compress.Config{

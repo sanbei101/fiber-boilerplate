@@ -58,9 +58,9 @@ type middleware = struct {
 	}
 
 	Limiter struct {
-		Enable  bool
-		Max     int
-		ExpSecs time.Duration `toml:"expiration_seconds"`
+		Enable     bool
+		Max        int
+		Expiration time.Duration `toml:"expiration_seconds"`
 	}
 
 	Filesystem struct {
