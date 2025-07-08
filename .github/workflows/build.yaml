@@ -1,18 +1,27 @@
-on: [push, pull_request]
-name: Build
+name: ci
+
+on: [push]
+
 jobs:
-  Build:
-    strategy:
-      matrix:
-        go-version: [1.18.x]
-        platform: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.platform }}
+  docker:
+    runs-on: ubuntu-latest
+    permissions:
+      package: write
     steps:
-    - name: Install Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: ${{ matrix.go-version }}
-    - name: Fetch Repository
-      uses: actions/checkout@v2
-    - name: Build App
-      run: go build cmd/example/main.go
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/sanbei101/fiber-app:latest

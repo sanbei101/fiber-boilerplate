@@ -1,6 +1,6 @@
 FROM golang:alpine as builder
 WORKDIR /app
-COPY go.* ./
+COPY go.mod go.sum /app
 RUN go mod download
 COPY . .
 RUN apk update && apk add upx ca-certificates openssl && update-ca-certificates
