@@ -23,5 +23,6 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
+          file: build/Dockerfile
           tags: |
             ghcr.io/sanbei101/fiber-app:latest
