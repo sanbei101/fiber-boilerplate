@@ -11,8 +11,8 @@ import (
 	"github.com/efectn/fiber-boilerplate/app/middleware"
 	"github.com/efectn/fiber-boilerplate/app/module/article"
 	"github.com/efectn/fiber-boilerplate/app/router"
-	"github.com/efectn/fiber-boilerplate/internal/bootstrap"
 	"github.com/efectn/fiber-boilerplate/internal/database"
+	"github.com/efectn/fiber-boilerplate/internal/logger"
 	"github.com/efectn/fiber-boilerplate/utils/config"
 	"github.com/efectn/fiber-boilerplate/utils/response"
 	fxzerolog "github.com/efectn/fx-zerolog"
@@ -122,7 +122,7 @@ func main() {
 		// Provide patterns
 		fx.Provide(NewFiber),
 		fx.Provide(config.NewConfig),
-		fx.Provide(bootstrap.NewLogger),
+		fx.Provide(logger.NewLogger),
 		fx.Provide(database.NewDatabase),
 		fx.Provide(middleware.NewMiddleware),
 		fx.Provide(router.NewRouter),
