@@ -1,11 +1,9 @@
 package repository
 
-import (
-	"github.com/efectn/fiber-boilerplate/internal/bootstrap"
-)
+import "github.com/efectn/fiber-boilerplate/internal/database"
 
 type ArticleRepository struct {
-	DB *bootstrap.Database
+	DB *database.Database
 }
 
 type Article struct {
@@ -21,12 +19,12 @@ func (Article) TableName() string {
 type IArticleRepository interface {
 	GetArticles() ([]*Article, error)
 	GetArticleByID(id uint) (*Article, error)
-	CreateArticle(id uint, title, content string) (*Article, error)
+	CreateArticle(title, content string) (*Article, error)
 	UpdateArticle(id uint, title, content string) (*Article, error)
 	DeleteArticle(id uint) error
 }
 
-func NewArticleRepository(database *bootstrap.Database) *ArticleRepository {
+func NewArticleRepository(database *database.Database) *ArticleRepository {
 	return &ArticleRepository{
 		DB: database,
 	}
@@ -47,9 +45,8 @@ func (s *ArticleRepository) GetArticleByID(id uint) (*Article, error) {
 	return &article, nil
 }
 
-func (s *ArticleRepository) CreateArticle(id uint, title, content string) (*Article, error) {
+func (s *ArticleRepository) CreateArticle(title, content string) (*Article, error) {
 	article := &Article{
-		ID:      id,
 		Title:   title,
 		Content: content,
 	}

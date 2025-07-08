@@ -13,7 +13,7 @@ cert-file = "./storage/selfsigned.crt"
 key-file = "./storage/selfsigned.key"
 
 [db.postgres]
-dsn = "postgresql://postgres:postgres@postgres:5432/boilerplate" # <driver>://<username>:<password>@<host>:<port>/<database>
+dsn = "postgresql://myuser:GZH031ghr@101.201.49.155:5433/mydatabase" # <driver>://<username>:<password>@<host>:<port>/<database>
 
 [logger]
 time-format = "" # https://pkg.go.dev/time#pkg-constants, https://github.com/rs/zerolog/blob/master/api.go#L10 

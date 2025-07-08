@@ -50,7 +50,7 @@ func (con *ArticleController) Show(c *fiber.Ctx) error {
 		return err
 	}
 
-	article, err := con.articleService.GetArticleByID(id)
+	article, err := con.articleService.GetArticleByID(uint(id))
 	if err != nil {
 		return err
 	}
@@ -67,7 +67,7 @@ func (con *ArticleController) Store(c *fiber.Ctx) error {
 		return err
 	}
 
-	article, err := con.articleService.CreateArticle(*req)
+	article, err := con.articleService.CreateArticle(req.Title, req.Content)
 	if err != nil {
 		return err
 	}
@@ -89,7 +89,7 @@ func (con *ArticleController) Update(c *fiber.Ctx) error {
 		return err
 	}
 
-	article, err := con.articleService.UpdateArticle(id, *req)
+	article, err := con.articleService.UpdateArticle(uint(id), req.Title, req.Content)
 	if err != nil {
 		return err
 	}
@@ -106,7 +106,7 @@ func (con *ArticleController) Destroy(c *fiber.Ctx) error {
 		return err
 	}
 
-	if err = con.articleService.DeleteArticle(id); err != nil {
+	if err = con.articleService.DeleteArticle(uint(id)); err != nil {
 		return err
 	}
 

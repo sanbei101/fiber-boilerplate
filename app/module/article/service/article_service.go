@@ -5,7 +5,7 @@ import (
 )
 
 type ArticleService struct {
-	Repo repository.IArticleRepository
+	Repo *repository.ArticleRepository
 }
 
 type IArticleService interface {
@@ -16,12 +16,11 @@ type IArticleService interface {
 	DeleteArticle(id uint) error
 }
 
-func NewArticleService(repo repository.IArticleRepository) *ArticleService {
+func NewArticleService(repo *repository.ArticleRepository) *ArticleService {
 	return &ArticleService{
 		Repo: repo,
 	}
 }
-
 func (s *ArticleService) GetArticles() ([]*repository.Article, error) {
 	return s.Repo.GetArticles()
 }
@@ -30,8 +29,8 @@ func (s *ArticleService) GetArticleByID(id uint) (*repository.Article, error) {
 	return s.Repo.GetArticleByID(id)
 }
 
-func (s *ArticleService) CreateArticle(id uint, title string, content string) (*repository.Article, error) {
-	return s.Repo.CreateArticle(id, title, content)
+func (s *ArticleService) CreateArticle(title string, content string) (*repository.Article, error) {
+	return s.Repo.CreateArticle(title, content)
 }
 func (s *ArticleService) UpdateArticle(id uint, title string, content string) (*repository.Article, error) {
 	return s.Repo.UpdateArticle(id, title, content)

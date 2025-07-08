@@ -9,6 +9,7 @@ import (
 
 	"github.com/efectn/fiber-boilerplate/app/middleware"
 	"github.com/efectn/fiber-boilerplate/app/router"
+	"github.com/efectn/fiber-boilerplate/internal/database"
 	"github.com/efectn/fiber-boilerplate/utils/config"
 	"github.com/efectn/fiber-boilerplate/utils/response"
 	"github.com/gofiber/fiber/v2"
@@ -35,7 +36,7 @@ func NewFiber(cfg *config.Config) *fiber.App {
 	return app
 }
 
-func Start(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router *router.Router, middlewares *middleware.Middleware, database *Database, log zerolog.Logger) {
+func Start(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router *router.Router, middlewares *middleware.Middleware, database *database.Database, log zerolog.Logger) {
 	lifecycle.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
