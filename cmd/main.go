@@ -4,7 +4,6 @@ import (
 	"context"
 	"os"
 	"runtime"
-	"strings"
 	"time"
 
 	"go.uber.org/fx"
@@ -18,7 +17,6 @@ import (
 	"github.com/efectn/fiber-boilerplate/utils/response"
 	fxzerolog "github.com/efectn/fx-zerolog"
 	"github.com/gofiber/fiber/v2"
-	futils "github.com/gofiber/fiber/v2/utils"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	_ "go.uber.org/automaxprocs"
@@ -58,16 +56,6 @@ func Start(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router 
 					} else {
 						host = "0.0.0.0"
 					}
-				}
-
-				// ASCII Art
-				ascii, err := os.ReadFile("./storage/ascii_art.txt")
-				if err != nil {
-					log.Debug().Err(err).Msg("An unknown error occurred when to print ASCII art!")
-				}
-
-				for _, line := range strings.Split(futils.UnsafeString(ascii), "\n") {
-					log.Info().Msg(line)
 				}
 
 				// Information message
