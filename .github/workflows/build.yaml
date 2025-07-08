@@ -1,4 +1,4 @@
-name: ci
+name: build-docker
 
 on: [push]
 
@@ -6,7 +6,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     permissions:
-      package: write
+      packages: write
     steps:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3

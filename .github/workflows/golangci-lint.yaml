@@ -5,6 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch Repository
-        uses: actions/checkout@4
+        uses: actions/checkout@v4
       - name: Check GoLint Errors
         uses: reviewdog/action-golangci-lint@v2
