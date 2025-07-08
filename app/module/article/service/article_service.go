@@ -1,41 +1,70 @@
 package service
 
 import (
-	"github.com/efectn/fiber-boilerplate/app/module/article/repository"
+	"github.com/efectn/fiber-boilerplate/app/module/article/model"
+	"github.com/efectn/fiber-boilerplate/internal/database"
 )
 
 type ArticleService struct {
-	Repo *repository.ArticleRepository
+	DB *database.Database
 }
 
 type IArticleService interface {
-	GetArticles() ([]*repository.Article, error)
-	GetArticleByID(id uint) (*repository.Article, error)
-	CreateArticle(id uint, title string, content string) (*repository.Article, error)
-	UpdateArticle(id uint, title string, content string) (*repository.Article, error)
+	GetArticles() ([]*model.Article, error)
+	GetArticleByID(id uint) (*model.Article, error)
+	CreateArticle(title string, content string) (*model.Article, error)
+	UpdateArticle(id uint, title string, content string) (*model.Article, error)
 	DeleteArticle(id uint) error
 }
 
-func NewArticleService(repo *repository.ArticleRepository) *ArticleService {
+func NewArticleService(db *database.Database) *ArticleService {
 	return &ArticleService{
-		Repo: repo,
+		DB: db,
 	}
 }
-func (s *ArticleService) GetArticles() ([]*repository.Article, error) {
-	return s.Repo.GetArticles()
+
+func (s *ArticleService) GetArticles() ([]*model.Article, error) {
+	var articles []*model.Article
+	err := s.DB.Gorm.Order("id asc").Find(&articles).Error
+	return articles, err
 }
 
-func (s *ArticleService) GetArticleByID(id uint) (*repository.Article, error) {
-	return s.Repo.GetArticleByID(id)
+func (s *ArticleService) GetArticleByID(id uint) (*model.Article, error) {
+	var article model.Article
+	err := s.DB.Gorm.Where("id = ?", id).First(&article).Error
+	if err != nil {
+		return nil, err
+	}
+	return &article, nil
 }
 
-func (s *ArticleService) CreateArticle(title string, content string) (*repository.Article, error) {
-	return s.Repo.CreateArticle(title, content)
+func (s *ArticleService) CreateArticle(title string, content string) (*model.Article, error) {
+	article := &model.Article{
+		Title:   title,
+		Content: content,
+	}
+	err := s.DB.Gorm.Create(article).Error
+	if err != nil {
+		return nil, err
+	}
+	return article, nil
 }
-func (s *ArticleService) UpdateArticle(id uint, title string, content string) (*repository.Article, error) {
-	return s.Repo.UpdateArticle(id, title, content)
+
+func (s *ArticleService) UpdateArticle(id uint, title string, content string) (*model.Article, error) {
+	var article model.Article
+	err := s.DB.Gorm.Where("id = ?", id).First(&article).Error
+	if err != nil {
+		return nil, err
+	}
+	article.Title = title
+	article.Content = content
+	err = s.DB.Gorm.Save(&article).Error
+	if err != nil {
+		return nil, err
+	}
+	return &article, nil
 }
 
 func (s *ArticleService) DeleteArticle(id uint) error {
-	return s.Repo.DeleteArticle(id)
+	return s.DB.Gorm.Delete(&model.Article{}, id).Error
 }

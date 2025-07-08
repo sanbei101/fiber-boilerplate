@@ -2,7 +2,6 @@ package article
 
 import (
 	"github.com/efectn/fiber-boilerplate/app/module/article/controller"
-	"github.com/efectn/fiber-boilerplate/app/module/article/repository"
 	"github.com/efectn/fiber-boilerplate/app/module/article/service"
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/fx"
@@ -15,8 +14,7 @@ type ArticleRouter struct {
 
 // Register bulkly
 var NewArticleModule = fx.Options(
-	// Register Repository & Service
-	fx.Provide(repository.NewArticleRepository),
+	// Register Service
 	fx.Provide(service.NewArticleService),
 
 	// Register Controller

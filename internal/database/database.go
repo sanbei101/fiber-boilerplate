@@ -1,6 +1,7 @@
 package database
 
 import (
+	"github.com/efectn/fiber-boilerplate/app/module/article/model"
 	"github.com/efectn/fiber-boilerplate/utils/config"
 	"github.com/rs/zerolog"
 
@@ -25,7 +26,7 @@ func NewDatabase(cfg *config.Config, log zerolog.Logger) *Database {
 func (db *Database) ConnectDatabase() {
 	gormDB, err := gorm.Open(postgres.Open(db.Cfg.DB.Postgres.DSN), &gorm.Config{})
 	if err != nil {
-		db.Log.Error().Err(err).Msg("An unknown error occurred when connecting to the database!")
+		db.Log.Error().Err(err)
 	} else {
 		db.Log.Info().Msg("Connected to the database successfully!")
 	}
@@ -40,5 +41,13 @@ func (db *Database) ShutdownDatabase() {
 	}
 	if err := sqlDB.Close(); err != nil {
 		db.Log.Error().Err(err).Msg("An unknown error occurred when shutting down the database!")
+	}
+}
+
+func (db *Database) Migrate() {
+	if err := db.Gorm.AutoMigrate(model.Article{}); err != nil {
+		db.Log.Error().Err(err)
+	} else {
+		db.Log.Info().Msg("Database migrated successfully!")
 	}
 }
