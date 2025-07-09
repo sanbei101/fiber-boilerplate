@@ -29,3 +29,5 @@ jobs:
           file: build/Dockerfile
           tags: |
             ghcr.io/sanbei101/fiber-app:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
