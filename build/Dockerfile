@@ -1,7 +1,6 @@
+FROM golang:alpine AS builder
 ARG TARGETOS
 ARG TARGETARCH
-
-FROM golang:alpine AS builder
 WORKDIR /app
 COPY go.mod go.sum /app
 RUN go mod download
