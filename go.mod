@@ -9,7 +9,7 @@ require (
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/pelletier/go-toml/v2 v2.0.2
-	github.com/rs/zerolog v1.27.0
+	github.com/rs/zerolog v1.34.0
 	go.uber.org/automaxprocs v1.5.1
 	go.uber.org/fx v1.24.0
 	gorm.io/driver/postgres v1.6.0
